@@ -62,6 +62,8 @@ class RNG:
         return Integer(rQ[0])>>8
 ```
 
+## Solution
+
 I'm pretty new to elliptical curve cryptography, so I had to do a significant
 amount of googling. Luckily, I stumbled on this: [Dual_EC_DRBG backdoor: a
 proof of concept](https://blog.0xbadc0de.be/archives/155).
