@@ -1,6 +1,6 @@
 # CTF Write-ups
 
-Write-ups for the Buckeye Bureau of BOF
+Write-ups for the [Buckeye Bureau of BOF](https://ctftime.org/team/144581)
 
 ## Competition History
 
