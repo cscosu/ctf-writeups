@@ -41,8 +41,9 @@ $ checksec resolve
 
 The challenge hints at ret2dlresolve, which should work since there's no PIE
 and stack canary.
-Luckily I saw a super elegant ret2dlresolve solution to [babyrop](https://ctftime.org/task/14690)
-DiceCTF from theKidOfArcrania, so I just edited it slightly and it worked!
+Luckily I saw a super elegant ret2dlresolve solution by theKidOfArcrania to
+[babyrop](https://ctftime.org/task/14690) from DiceCTF, so I just edited it
+slightly and it worked!
 
 Pwntools is so powerful sometimes it makes me feel like a script kiddie lol.
 
