@@ -2,7 +2,7 @@
 
 **Category**: Crypto \
 **Points**: 998 (18 solves) \
-**Author**: Sohmaster
+**Author**: Sohamster
 
 ## Challenge
 
