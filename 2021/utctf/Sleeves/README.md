@@ -1,6 +1,6 @@
 # Sleeves
 
-**Category**: Pwn \
+**Category**: Crypto \
 **Points**: 990 (34 solves) \
 **Author**: hukc
 
