@@ -41,7 +41,7 @@ The challenge we have to encrypt is 32 bytes, so we have to forge 3 blocks.
 
 I don't really feel like doing a detailed write-up since there are already many
 [resources](https://robertheaton.com/2013/07/29/padding-oracle-attack/) on
-padding oracles attacks.
+padding oracle attacks.
 
 As always, this image is helpful in understanding what's going on:
 ![cbc](https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/CBC_decryption.svg/1200px-CBC_decryption.svg.png)

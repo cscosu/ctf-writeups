@@ -34,7 +34,7 @@ You have 60 seconds to provide input:
 ```
 
 Cool, so basically we have to automatically generate an exploit.
-We can we parse the hexdump into a binary using `xxd -r 0.hex > 0`
+We can parse the hexdump into a binary using `xxd -r 0.hex > 0`
 
 Opening it up in Ghidra, the program is pretty simple:
 ```c
