@@ -1,7 +1,7 @@
 # UTCTF 2021
 
 **Site**:  https://utctf.live \
-**Rank**: 7 / 796
+**Rank**: 7 / 697
 
 This was a fun medium difficulty CTF hosted by University of Texas at Austin.
 We spent all weekend grinding problems and managed to solve all but 5.
