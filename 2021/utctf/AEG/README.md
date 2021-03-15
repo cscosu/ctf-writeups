@@ -121,7 +121,8 @@ This was my first time using angr, so I started by skimming the docs. I also
 found a few examples of similar automatic exploit generation challenges (with
 solvers!) [here](https://docs.angr.io/examples#exploitation).
 
-After getting a basic understanding of angr, I tried running in angr to see what would happen.
+After getting a basic understanding of angr, I tried running it in angr to see
+what would happen.
 
 ```
 $ python3 -m venv env
@@ -226,7 +227,7 @@ $ echo $?
 ```
 
 That means the program exited with status code `100`, which means that the
-`win` function was called! Now all that's let is to wrap this in a pwntools
+`win` function was called! Now all that's left is to wrap this in a pwntools
 script to interact with the challenge server:
 
 > Note: For some reason I couldn't get pwntools and angr to work in the same
