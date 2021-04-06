@@ -136,6 +136,6 @@ printf("0x%x\n",0x50554641);
 printf("0x%x\n",0x3d3d3d3d);
 ```
 
-Unhex the numbers, Base 32 decode, (why the fuck use Base 32?) and we get the flag:
+Unhex the numbers, Base 32 decode, (who the fuck uses Base 32?) and we get the flag:
 
 ![flag](f.png)
