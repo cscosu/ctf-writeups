@@ -111,7 +111,7 @@ Wow his
 [writeup](https://github.com/akhbaar/ctf-writeups/blob/master/0x414141-2021/hash.md)
 for Hash from [0x41414141 CTF](https://ctftime.org/event/1249) explains how the
 challenge has dead code (code behind an `if` statement that's always false) so
-Ghidra that doesn't show it! How sneaky!! I bet he used the same trick here!!
+that Ghidra doesn't show it! How sneaky!! I bet he used the same trick here!!
 
 Guess what:
 
