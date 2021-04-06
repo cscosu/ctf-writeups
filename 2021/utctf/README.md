@@ -1,5 +1,6 @@
 # UTCTF 2021
 
+**CTFTime**: https://ctftime.org/event/1177 \
 **Site**:  https://utctf.live \
 **Rank**: 7 / 697
 
