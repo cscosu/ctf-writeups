@@ -149,7 +149,7 @@ RSA
 ```
 
 WTF DOES THIS EVEN MEAN? I ended up asking the admin, who gave me the hint that
-RSA and SSS share the same S. My teammate Leah eventually figured out that it
+RSA and SSS share the same S. My teammate Leah figured out that it
 stood for Shamir Secret Sharing.
 
 ```python
