@@ -13,6 +13,8 @@ though...
 
 Server at: `nc chal.b01lers.com 25003`
 
+Attachments: `server.py`
+
 ## Solution
 
 Yet another CBC padding oracle. Too lazy to make a write-up, script in
