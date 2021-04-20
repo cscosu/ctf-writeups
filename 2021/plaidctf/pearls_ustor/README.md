@@ -52,4 +52,4 @@ if not os.path.exists(
 
 Exploit: Upload a `flag.lnk` symlink to `/cygdrive/c/flag.txt`
 
-Walthrough: https://youtu.be/yht7bpF0Ei0 (solved with ammar2, elnardu, and Exaphis)
+Walkthrough: https://youtu.be/yht7bpF0Ei0 (solved with ammar2, elnardu, and Exaphis)
