@@ -89,7 +89,7 @@ Here's what I found after reversing it in Ghidra:
   the [Napster spec](http://opennap.sourceforge.net/napster.txt)
 
 There were only two places where files were read:
-1. The file server running on an port 7070
+1. The file server running on port 7070
 2. A weird `fopen` call in `main`. After playing around for a while, it seemed
    like the `fopen` was unreachable, so I don't know what it was even there for.
 
