@@ -91,7 +91,7 @@ Here's what I found after reversing it in Ghidra:
 There were only two places where files were read:
 1. The file server running on an port 7070
 2. A weird `fopen` call in `main`. After playing around for a while, it seemed
-   like the `fopen` was unreachable, so I don't know what was even there for.
+   like the `fopen` was unreachable, so I don't know what it was even there for.
 
 Since I suck at static analysis, I switched to GDB after I realized that if I
 changed the nickname the client used, I could run it without any issues.
@@ -111,7 +111,7 @@ from enum import IntEnum
 def send(msg: bytes, type: int):
     p = pwn.p16(len(msg)) + pwn.p16(type) + msg
     io.send(p)
-    res = io.clean(timeout=0.1)
+    res = io.clean(timeout=0.5)
     print(f"[*] Response: {res}")
 
 
