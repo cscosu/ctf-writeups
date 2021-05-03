@@ -65,10 +65,10 @@ Ok, let's check out his files
 ![f.png](f.png)
 
 We see about 200 MP3 files (all of them are Rickrolls) and one file called
-`nooopster`. Downloading it, we can see that it's an ELF binary.
+`nooopster`, which is an ELF binary.
 
 After opening it in Ghidra, we can see that it's a custom Napster client that
-the `nooopster` bot is presumably using. Our goal is to pwn his client.
+the `nooopster` bot is presumably using. Our goal is to pwn the client.
 
 ## Solution
 
