@@ -96,10 +96,14 @@ There were only two places where files were read:
 Since I suck at static analysis, I switched to GDB after I realized that if I
 changed the nickname the client used, I could run it without any issues.
 
-Turns out the bug was in this `parse_filepath()` function. The filepath needs
+Turns out the bug was in this `parse_filepath()` function (the binary was
+stripped so this is just the name I gave to the function). The filepath needs
 to start with `\shared\blah` and `parse_filepath()` just returns `blah`.
 However it doesn't check for any funny business so we can just do
 `\shared\/flag` and it will return `/flag`.
+
+Here's short clip showing how this `parse_filepath()` function can be found in Ghidra:
+[ghidra.mp4](ghidra.mp4)
 
 Solve script:
 ```python
