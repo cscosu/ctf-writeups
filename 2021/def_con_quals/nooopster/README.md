@@ -102,8 +102,8 @@ to start with `\shared\blah` and `parse_filepath()` just returns `blah`.
 However it doesn't check for any funny business so we can just do
 `\shared\/flag` and it will return `/flag`.
 
-Here's short clip showing how this `parse_filepath()` function can be found in Ghidra:
-[ghidra.mp4](ghidra.mp4)
+Here's a short clip showing how this `parse_filepath()` function can be found
+in Ghidra: [ghidra.mp4](ghidra.mp4)
 
 Solve script:
 ```python
