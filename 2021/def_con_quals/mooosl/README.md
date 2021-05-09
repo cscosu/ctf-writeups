@@ -12,9 +12,11 @@
 
 **Attachments**: libc.so, mooosl
 
+----
+
 **I did not solve this challenge during the competition. After reading about some techniques others applied (mentioned below) I finished my solution two days later.**
 
-I am going to try to go through this challenge with as much detail as possible. Perhaps a painful amount of deetail. If you just want to see the exploitation technique, you probably want to scroll down to Part 4.
+I am going to try to go through this challenge with as much detail as possible. Perhaps a painful amount of detail. If you just want to see the exploitation technique, you probably want to scroll down to Part 5.
 
 
 ## Part 1. Obtain and Run the Challenge
@@ -624,7 +626,7 @@ We originally controlled the data in Chunk 3, but it's free'd now. If we can mak
 
 To get chunk 3 allocated again as a node, we need to ask for a key length of 0x30, which the same as the allocation size for the node. This strategy only works if we can get Chunk 3 allocated as a node before Chunk 1 gets allocated again -- if Chunk 1 gets allocated, it will get zeroed by calloc and we will no longer have a pointer into Chunk 3 that we can print from. Luckily, we noticed earlier that the heap is not LIFO (last-in-first-out) at all. With some trial and error we are able to achieve multiple allocations of Chunk 3 as a node while Chunk 1 stays intact.
 
-Ok, so we can leak a heap pointer and a libc pointer, but that's not an *arbitrary* read advertised by the header of this section. For reasons I have not yet described, we want to leak the 'secret' member of the `malloc_context` structure, which resides in libc's .bss (You can find this by looking at the globals referenced by `malloc`/`free` in libc.so using Ghidra; the secret is at `001b4ad0` for me). To read this value, we need to re-allocate Chunk 1 as a 'value' and then overwrite the contents of the node so that the address we want to read (of the malloc_context secret) is in place of val_buf.
+Ok, so we can leak a heap pointer and a libc pointer, but that's not an *arbitrary* read advertised by the header of this section. For reasons I have not yet described, we want to leak the 'secret' member of the `malloc_context` structure, which resides in libc's .bss (You can find this by looking at the globals referenced by `malloc`/`free` in libc using Ghidra; the secret is at `001b4ad0` for me). To read this value, we need to re-allocate Chunk 1 as a 'value' and then overwrite the contents of the node so that the address we want to read (of the malloc_context secret) is in place of val_buf.
 
 For this, it is convenient to have your chunks in bucket 0x7e5 (the bucket things fall into when for key length = 0) so we can zero those members out and still be able to locate our chunk.
 ```
@@ -659,7 +661,7 @@ We have a few problems:
 
 Regarding turning arbitrary write into code execution, I found the answer in (the translation of) someone's [personal chinese blog](https://translate.google.com/translate?hl=en&sl=zh-CN&tl=en&u=https%3A%2F%2Fwww.anquanke.com%2Fpost%2Fid%2F202253&prev=search). The technique is called FSOP (File-stream oriented programming), and I had never heard of it before. There is a global [`FILE` structure](https://github.com/ifduyue/musl/blob/master/src/internal/stdio_impl.h#L21) that has some function pointers, so if we get arbitrary write then we can change one of these pointers. The pointers [get called upon `exit()`](https://github.com/ifduyue/musl/blob/cfdfd5ea3ce14c6abf7fb22a531f3d99518b5a1b/src/stdio/__stdio_exit.c#L12) with a pointer to the file structure. So we need to write `/bin/sh` at the beginning of the structure, and overwrite the `write` pointer to call `system`.
 
-However, I struggled to figure out how to the double-free and UAF  into an arbitrary write. I had a libc and heap leak, and I knew I could turn a arbitrary write into code exeuction, but I didn't figure it out in time. One thing I had thought to try was that maybe mmap-ed chunks were treated differently, and that maybe I could construct a fake mmap-ed chunk -- this didn't work, since I didn't have anywhere I could construct the fake chunk that was close enough to `libc`'s .data (where I want to write). After the competition was over some people were posting solve scripts, and I took a peek at a few. I noticed they were constructing a fake `struct meta` and were using the fwd and bck pointers for their arbitrary write. I then understood what I needed to do.
+However, I struggled to figure out how to turn the double-free and UAF into an arbitrary write. I had a libc and heap leak, and I knew I could turn an arbitrary write into code execution, but I didn't figure it out in time. One thing I had thought to try was that maybe mmap-ed chunks were treated differently, and that maybe I could construct a fake mmap-ed chunk -- this didn't work, since I didn't have anywhere I could construct the fake chunk that was close enough to `libc`'s .data (where I want to write). After the competition was over some people were posting solve scripts, and I took a peek at a few. I noticed they were constructing a fake `struct meta` and were using the fwd and bck pointers for their arbitrary write. I then understood what I needed to do.
 
 ### Semi-arbitrary write
 
@@ -677,7 +679,7 @@ If we can control `cur->next` and `cur->prev`, we can gain an semi-arbitrary wri
 
 Musl libc has [some code in the `dequeue` function to unlink a `struct meta`](https://github.com/ifduyue/musl/blob/aad50fcd791e009961621ddfbe3d4c245fd689a3/src/malloc/mallocng/meta.h#L93)... and it doesn't have integrity checks! (... maybe someone should suggest this to them?). The `dequeue` function gets called in free, if that free caused a [`struct meta` to become *entirely free*](https://github.com/ifduyue/musl/blob/aad50fcd791e009961621ddfbe3d4c245fd689a3/src/malloc/mallocng/free.c#L78).
 
-How do we trigger this? We can construct a fake chunk, complete with a fake `struct group` pointing to a fake `struct meta`, with a fake `struct meta_area` at the beginning of the page containing the `struct meta`. To summarize the conditions for our fake structures:
+How do we trigger this? We can construct a fake chunk, complete with a fake `struct group` pointing to a fake `struct meta`, with a fake `struct meta_area` at the beginning of the page which containeed the `struct meta`. To summarize the conditions for our fake structures:
 - The fake chunk needs to have a fake `struct group` at (p - 16*off - 16).
 - The fake `struct group` needs to point to a fake `struct meta`
 - The fake `struct meta` needs to have `mem` pointing back to the fake struct group. Recall the struct definition:
@@ -692,9 +694,9 @@ How do we trigger this? We can construct a fake chunk, complete with a fake `str
         uintptr_t maplen:8*sizeof(uintptr_t)-12;
     };
     ```
-    We will put the address we want to write to in `next` and the value we want to write there as `prev`.  It will also change prev->next (bytes at offset 8-15 of `prev`) to `next`, but that happens to not cause an issue for us (see later).
+    We will put the address we want to write to in `next` and the value we want to write there as `prev`.  It will also change prev->next (bytes at offset 8-15 of `prev`) to `next`, which will be discussed later.
 
-    I will explain the values I used for the rest of the fields in the next section.
+    I will explain the values I used for the rest of the fields in the annotated solve script.
 - The beginning of the page containing the `struct meta` needs to have a `struct meta_area` 
     ```
     struct meta_area {
@@ -718,6 +720,8 @@ To summarize the plan:
 - Construct multiple fake heap structures, and then free our fake heap chunk. We can free arbitrary pointers using the same technique: overwrite the value pointer in a node to the address we want, then free the node (again).
 - We should set up the fake structures so that we... \**wait a minute, we never figured out what we would do with our arbitrary write...*\*
 
+### Target
+
 I've left out the final part of the plan. I wrote all the code for the above steps, and then realized the constraint that I mentioned above: both the "what" and the "where" must be writable locations (because we unlink both forward and backward lists). We know we want to overwrite the `write` pointer in the `stdout` global structure, and write `/bin/sh` to the start of the structure. But `system` isn't a writable location (code is read-only) and neither is `b'/bin/sh`. What now? I messed around with this for a day, then gave up and looked at how [another team did it](https://discord.com/channels/708208267699945503/710921230395637811/838570592441335838). I thought that maybe I could overwrite the `stdout` global to an fake `struct FILE`, but this global is in a read-only section. I learned my lesson: DON'T IGNORE NON-FUNCTION XREFS. 
 
 <img src="screenshots/s14.png" width="500">
@@ -726,6 +730,6 @@ There is ANOTHER reference to the `stdout` FILE structure. And wha-do-ya-know, i
 
 So we want to set up our arbitrary write so that we overwrite this pointer to a file structure with a pointer to a *fake* file structure with the `read` function pointer pointing to `system` instead, and the first 8 bytes of the structure containing `/bin/sh`. This will work with our arbitrary write, because both the location we want to write to and the value we are going to write there can *both be writable* (rather than trying to write the address of `system` somewhere).
 
-I didn't develop this whole exploit at once, but I thought it made more sense to explain the whole thing, and then walk through the code for each part (rather than walking through the code as I go). Maybe that was a mistake, but here we are.
+I didn't develop this whole exploit at once, but I thought it made more sense to explain the whole thing, and leave the annotated code to explain each part.
 
-TODO: explain each piece of this with code, or just annotate my solve script.
+So at this point, check out `solve.py`. There are a few additional implementation details there but otherwise everything should have been explained in detail in this write-up.
