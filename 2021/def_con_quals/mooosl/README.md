@@ -25,7 +25,7 @@ They told us to `apt install musl`, so we can google "apt musl" to find out this
 
 Okay, so they gave us two files:
 - libc.so (presumably, this is the same libc that you get by doing `apt install musl`)
-- moosl
+- mooosl
 ```
 $ file mooosl
 mooosl: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-x86_64.so.1, stripped
@@ -104,7 +104,7 @@ $ ./mooosl
 option: 
 ```
 
-Those of us who are not strangers to pwn know this *wreaks* of a heap challenge. (Why? 'store' => `malloc`, 'delete' => `free`, 'query' => print out the contents of an allocation).
+Those of us who are not strangers to pwn know this *reeks* of a heap challenge. (Why? 'store' => `malloc`, 'delete' => `free`, 'query' => print out the contents of an allocation).
 
 I tried a few inputs, and made some observations:
 
