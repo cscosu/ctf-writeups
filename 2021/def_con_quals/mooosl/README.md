@@ -185,7 +185,7 @@ bye
 - I stored two things for the same key. When I did query, I got the _second_ one I stored.
 
 
-That's about all I cared to explore dynamically for the moment -- lets pop it into Ghidra.
+That's about all I cared to explore dynamically for the moment -- let's pop it into Ghidra.
 
 ## Part 3. Find the bug
 
@@ -199,11 +199,11 @@ Ghidra has the wrong function signature for FUN_0010128f; we notice this because
 
 <img src="screenshots/s2.png" width="500">
 
-With this knowledge, we know that iVar1 containst the option entered by the user. So we can label the diffrent branches accordingly.
+With this knowledge, we know that iVar1 contains the option entered by the user. So we can label the different branches accordingly.
 
 <img src="screenshots/s3.png" width="500">
 
-Lets dive into `do_store`.
+Let's dive into `do_store`.
 
 <img src="screenshots/s4.png" width="500">
 
@@ -218,11 +218,11 @@ Cool, lets try to figure out what each function does now. The first function, on
 
 <img src="screenshots/s7.png" width="500">
 
-We see that it prompts for a key size, we calloc that size, then we set the value at p2buf to the new chunk we just allocated. Next, this function calls FUN_001011e9. I am omitting this for brevity, but it just `read`s one character at a time from the user into arg1, until either \n is reached or we've written `len` (arg2) characters. It returns the number of chars read. (Note, it does not null-terminate the string, but it won't matter because this value isn't treated anywhere as a string). I'm naming this function `read_until_newline`.
+We see that it prompts for a key size, we calloc that size, then we set the value of `param_1->field_0x0` to the address of the new chunk we just allocated. Next, this function calls FUN_001011e9. I am omitting this for brevity, but it just `read`s one character at a time from the user into arg1, until either \n is reached or we've written `len` (arg2) characters. It returns the number of chars read. (Note, it does not null-terminate the string, but it won't matter because this value isn't treated anywhere as a string). I'm naming this function `read_until_newline`.
 
 Going back out to `do_store`, we can label that first call as a call to `get_key_from_user`. 
 
-Notice that the argument is just puVar2 -- this is a pointer to the structure, which is also a pointer to the *first member of the structure*, `field_0x0`. So we know that get_key_from_user is going to set `field_0x0` to the pointer it gets from its calloc call... that was where the key was stored! So we can rename `field_0x0` to `key_buf`. 
+Notice that the argument to `get_key_from_user` is just puVar2 -- this is a pointer to the structure. So we know that get_key_from_user is going to set `puVar2->field_0x0` to the pointer it gets from its calloc call... that was where the key was stored! So we can rename `field_0x0` to `key_buf`. 
 
 The return value of `get_key_from_user` is the return value of `read_until_newline` (the number of characters read). So `field_0x10` is the `key_len`.
 
@@ -293,7 +293,7 @@ Let's look closely at what happens when `get_node_by_key` returns non-null (aka 
 
 It gets a pointer to the list head from the global (line 20), then it checks:
 - If the node we are trying to delete is the list head
-- OR the node we are trying to delete is NOT the list tail (->next is not null)
+- OR the node we are trying to delete is NOT the list tail (`->next` is not null)
 
 If either of these conditions is satisifed, it actually unlinks correctly: The loop finds the pointer to change (the previous node's next pointer, or the pointer to the head of the list) and then changes it to new next node.
 
@@ -505,7 +505,7 @@ Going line-by-line:
     };
     ```
     So groups seemed to be further organized into 'metas' which serve as a linked-list of groups. Each 'meta' has a few intresting attributes we'll see soon.
-- Line 141: The `struct group` points to a `struct meta` through ->meta, and the meta points back to the group via `->mem`. These pointers must match up.
+- Line 141: The `struct group` points to a `struct meta` through `->meta`, and the meta points back to the group via `->mem`. These pointers must match up.
 - Line 142: The chunk's index must not exceed the meta's last_index.
 - Line 143 - 144: avail_mask and free_mask are `int`s which are used as 'bitmaps' where bit i represents whether the chunk with index i is available, freed, or both. For a chunk to be freeable, it should be neither available nor freeed.
 - Line 145: Every page (aligned 4096 byte chunk) that contains a `struct meta` must have a `struct meta_area` at the beginning of the page.
@@ -628,7 +628,7 @@ To get chunk 3 allocated again as a node, we need to ask for a key length of 0x3
 
 Ok, so we can leak a heap pointer and a libc pointer, but that's not an *arbitrary* read advertised by the header of this section. For reasons I have not yet described, we want to leak the 'secret' member of the `malloc_context` structure, which resides in libc's .bss (You can find this by looking at the globals referenced by `malloc`/`free` in libc using Ghidra; the secret is at `001b4ad0` for me). To read this value, we need to re-allocate Chunk 1 as a 'value' and then overwrite the contents of the node so that the address we want to read (of the malloc_context secret) is in place of val_buf.
 
-For this, it is convenient to have your chunks in bucket 0x7e5 (the bucket things fall into when for key length = 0) so we can zero those members out and still be able to locate our chunk.
+For this, it is convenient to have your chunks in bucket 0x7e5 (the bucket things fall into when key length = 0) so we can zero those members out and still be able to locate our chunk.
 ```
  Chunk 1
 |------------------------------|
