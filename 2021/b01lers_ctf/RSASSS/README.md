@@ -68,7 +68,7 @@ Part 1: `(1, 132156498146518935546534654)`
 
 ### Part 2
 
-This one is more interesting: `e` and `phi` are coprime, which makes
+This one is more interesting: `e` and `phi` aren't coprime, which makes
 calculating `d` not possible.
 
 The solution is to calculate some `lam` (should be `lambda`, but that's a
