@@ -11,7 +11,7 @@ Write-ups for the [Buckeye Bureau of BOF](https://ctftime.org/team/144581)
 | 04/03/21 - 04/05/21 | [b01lers CTF 2021]   |   4 / 297 | Hosted by Purdue University                |
 | 04/03/21 - 04/05/21 | [PlaidCTF 2021]      |  17 / 541 | Super team: [Cornfield Computer Crew]      |
 | 04/30/21 - 05/02/21 | [DEF CON Quals 2021] |  78 / 433 | Super team: [Midwest Ministry of Machines] |
-| 06/26/21 - 06/27/21 | [Hack-A-Sat 2021 Quals] | 23 / 697 | [Scoreboard](https://quals.2021.hackasat.com/scoreboard/complete) |
+| 06/26/21 - 06/27/21 | [Hack-A-Sat 2 Quals] |  23 / 697 |                                            |
 
 [DiceCTF 2021]: https://github.com/qxxxb/ctf/tree/master/2021/dice_ctf
 [UTCTF 2021]: 2021/utctf/
