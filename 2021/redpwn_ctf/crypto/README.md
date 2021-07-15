@@ -173,7 +173,7 @@ b"\xe5r\xe8\xd7i\xb9^MIkY.\xb0#y\xeeD\xd5L\x04]\xe55\t=\xd1\xf81\xd2\xbe\xbaq\x0
 ```
 
 You might notice that one of the lines above as a lot of `\x00` bytes, which is
-because they were encrypted with nonce.
+because they were encrypted with the same nonce.
 
 The junk in the middle of the string is due to the flag being in different positions:
 
@@ -363,7 +363,7 @@ for k in range(n):
 print()
 ```
 
-Flag: `flag{1_w1ll_n0t_34t_th3m_s4m_1_4m}'`
+Flag: `flag{1_w1ll_n0t_34t_th3m_s4m_1_4m}`
 
 ## Keeper of the Flag
 
