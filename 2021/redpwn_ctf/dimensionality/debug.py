@@ -2,8 +2,8 @@ import qiling
 import string
 import time
 
-# This script runs `chall` in qiling, which allows me to hook address and print
-# out registers and stuff. Useful for debugging.
+# This script runs `chall` in Qiling, which allows me to hook addresses and
+# print out registers and stuff. Useful for debugging.
 
 
 class StringBuffer:
