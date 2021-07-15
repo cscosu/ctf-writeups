@@ -595,5 +595,5 @@ from 1985. From there I learned that this is called the Ong-Schnorr-Shamir
 signature scheme. Some more Googling takes me to a similar challenge, which conveniently has many publicly available
 [write-ups](https://github.com/perfectblue/ctf-writeups/tree/master/2020/twctf-2020/circular).
 
-I just copied their script and to get the flag:
+I just copied their script to get the flag:
 `flag{w0w_th4t_s1gn4tur3_w4s_pr3tty_r3tr0}`
