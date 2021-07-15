@@ -64,9 +64,9 @@ def my_sandbox(path, inp):
 
     stdin.write(f"{inp}\n".encode())
 
-    ql.hook_address(boundary_fail, 0x555555555518)  # boundary check fail
-    ql.hook_address(char_fail, 0x5555555554D3)  # char check fail
-    ql.hook_address(char_pass, 0x5555555554C1)  # char success
+    ql.hook_address(boundary_fail, 0x555555555518)
+    ql.hook_address(char_fail, 0x5555555554D3)
+    ql.hook_address(char_pass, 0x5555555554C1)
 
     ql.run()
 
