@@ -20,5 +20,6 @@ Write-ups for the [Buckeye Bureau of BOF](https://ctftime.org/team/144581)
 [PlaidCTF 2021]: 2021/plaidctf/
 [DEF CON Quals 2021]: 2021/def_con_quals/
 [Hack-A-Sat 2 Quals]: 2021/hack_a_sat/
+[redpwnCTF 2021]: 2021/redpwn_ctf/
 [Cornfield Computer Crew]: https://ctftime.org/team/11464
 [Midwest Ministry of Machines]: https://ctftime.org/team/27763
