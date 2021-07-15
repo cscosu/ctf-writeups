@@ -38,15 +38,9 @@ def do_jmp(res):
 
 
 while i < len(prog):
-    # if i == 0x212:
-    # if i == 0x2A3B:
-    # if i == 0x216:
-    # if i == 0x2a5a:
-    # break
-
     msg = ""
-
     l = hex(i) + ": "
+
     if prog[i] == 0x1:
         val = stack.pop()
         stack.append(val)
@@ -91,7 +85,6 @@ while i < len(prog):
 
         a32 = z3.SignExt(16, a)
         b32 = z3.SignExt(16, b)
-        # res32 = a32.SRem(b32)
         res32 = a32 / b32
         res = z3.Extract(15, 0, res32)
 
