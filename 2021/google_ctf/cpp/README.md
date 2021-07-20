@@ -159,8 +159,9 @@ So the goal is just to get the program to compile.
 
 > Solved with a0su
 
-First let's indent the blocks properly so to make things more readable. I wrote
-a recursive descent parser in `parse.py` (output shown in `indented.txt`).
+First let's indent the blocks properly to make things more readable. I wrote
+a recursive descent parser in `parse.py` that will format it nicely (output
+shown in `indented.txt`).
 
 Here's a high-level overview of the program:
 
@@ -381,7 +382,7 @@ Key valid. Enjoy your program!
 
 ## Saturday
 
-- `11:30 PM - 01:00 AM`
+- `12:30 AM - 01:00 AM`
   - Finish interpreter, but realize that `cpp.c` actually includes itself
     making the control flow more complicated than I anticipated.
   - Decide to manually reverse flag checking logic.
