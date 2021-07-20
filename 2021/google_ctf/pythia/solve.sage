@@ -202,7 +202,8 @@ def make_collisions(keyset: list):
 
 
 if False:
-    # Run this to generate `cts.py`, which contains multi-collision ciphertexts
+    # Run this to generate `cts.py`, which contains multi-collision ciphertexts.
+    # Takes around 20 min to run :(
     generate_cts()
 
 

@@ -33,7 +33,6 @@ character wherever it wanted. A simple workaround was to start from the end and
 send `a}`, `b}`, `c}`, etc.
 
 Solve script in `solve.py`:
-This gave me the complete flag: `CTF{CR1M3_0f_d3dup1ic4ti0n}`
 
 ```
 $ python3 solve.py

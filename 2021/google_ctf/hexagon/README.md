@@ -58,8 +58,9 @@ Try again!
 240011 exit_group(0)
 ```
 
-If I used program compiled with `HEX_DEBUG` on, it would print out every
-instruction and the registers changed, which was very useful. The output looked something like this:
+If I used the program compiled with `HEX_DEBUG` on, it would print out every
+instruction and the registers changed, which was very useful. The output looked
+something like this:
 
 ```
 $ qemu-hexagon-dbg -strace ./challenge
@@ -116,8 +117,8 @@ R2 = R3
 R3 = R2 ^ R0
 ```
 
-However, Hexagon has this thing called "packets," which group instructions
-together so that they can be executed. Checking the output of
+However, Hexagon has this thing called "packets", which group instructions
+together so that they can be executed in parallel. Checking the output of
 `qemu-hexagon-dbg`, we can see that these two instructions belong in the same
 packet.
 ```

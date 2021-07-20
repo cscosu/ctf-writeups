@@ -38,9 +38,9 @@ Luckliy [this paper](https://eprint.iacr.org/2020/1491.pdf) has us covered, and
 even provides a SageMath
 [implementation](https://github.com/julialen/key_multicollision)!
 
-I just copied and wrote a pwntools wrapper to solve this challenge (script in
-`solve.sage`).  One issue is that generating a ciphertext to collide `26^3 / 2`
-keys took way too long on my machine. Instead the largest partition size I
+I just copied it and wrote a pwntools wrapper to solve this challenge (script
+in `solve.sage`). One issue is that generating a ciphertext to collide `26^3 /
+2` keys took way too long on my machine. Instead the largest partition size I
 chose was 1024 keys, which worked well enough.
 
 ```
