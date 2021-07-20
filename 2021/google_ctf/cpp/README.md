@@ -40,83 +40,83 @@ Opening the file, it starts with:
 ```c
 #if __INCLUDE_LEVEL__ == 0
 // Please type the flag:
-#defineine FLAG_0 CHAR_C
-#defineine FLAG_1 CHAR_T
-#defineine FLAG_2 CHAR_F
-#defineine FLAG_3 CHAR_LBRACE
-#defineine FLAG_4 CHAR_w
-#defineine FLAG_5 CHAR_r
-#defineine FLAG_6 CHAR_i
-#defineine FLAG_7 CHAR_t
-#defineine FLAG_8 CHAR_e
-#defineine FLAG_9 CHAR_UNDERSCORE
-#defineine FLAG_10 CHAR_f
-#defineine FLAG_11 CHAR_l
-#defineine FLAG_12 CHAR_a
-#defineine FLAG_13 CHAR_g
-#defineine FLAG_14 CHAR_UNDERSCORE
-#defineine FLAG_15 CHAR_h
-#defineine FLAG_16 CHAR_e
-#defineine FLAG_17 CHAR_r
-#defineine FLAG_18 CHAR_e
-#defineine FLAG_19 CHAR_UNDERSCORE
-#defineine FLAG_20 CHAR_p
-#defineine FLAG_21 CHAR_l
-#defineine FLAG_22 CHAR_e
-#defineine FLAG_23 CHAR_a
-#defineine FLAG_24 CHAR_s
-#defineine FLAG_25 CHAR_e
-#defineine FLAG_26 CHAR_RBRACE
+#define FLAG_0 CHAR_C
+#define FLAG_1 CHAR_T
+#define FLAG_2 CHAR_F
+#define FLAG_3 CHAR_LBRACE
+#define FLAG_4 CHAR_w
+#define FLAG_5 CHAR_r
+#define FLAG_6 CHAR_i
+#define FLAG_7 CHAR_t
+#define FLAG_8 CHAR_e
+#define FLAG_9 CHAR_UNDERSCORE
+#define FLAG_10 CHAR_f
+#define FLAG_11 CHAR_l
+#define FLAG_12 CHAR_a
+#define FLAG_13 CHAR_g
+#define FLAG_14 CHAR_UNDERSCORE
+#define FLAG_15 CHAR_h
+#define FLAG_16 CHAR_e
+#define FLAG_17 CHAR_r
+#define FLAG_18 CHAR_e
+#define FLAG_19 CHAR_UNDERSCORE
+#define FLAG_20 CHAR_p
+#define FLAG_21 CHAR_l
+#define FLAG_22 CHAR_e
+#define FLAG_23 CHAR_a
+#define FLAG_24 CHAR_s
+#define FLAG_25 CHAR_e
+#define FLAG_26 CHAR_RBRACE
 ```
 
 Then we see
 ```c
 // No need to change anything below this line
-#defineine CHAR_a 97
-#defineine CHAR_b 98
-#defineine CHAR_c 99
+#define CHAR_a 97
+#define CHAR_b 98
+#define CHAR_c 99
 ...
 #warning "Please wait a few seconds while your flag is validated."
-#defineine S 0
-#defineine ROM_00000000_0 1
-#defineine ROM_00000000_1 1
-#defineine ROM_00000000_2 0
+#define S 0
+#define ROM_00000000_0 1
+#define ROM_00000000_1 1
+#define ROM_00000000_2 0
 // ...
-#defineine ROM_01011010_5 0
-#defineine ROM_01011010_6 0
-#defineine ROM_01011010_7 0
+#define ROM_01011010_5 0
+#define ROM_01011010_6 0
+#define ROM_01011010_7 0
 ```
 
 So we have a few constants defined, as well as a ROM. Next we see the flag
 getting loaded into the ROM bit-by-bit:
 ```c
 #if FLAG_0 & (1<<0)
-#defineine ROM_10000000_0 1
+#define ROM_10000000_0 1
 #else
-#defineine ROM_10000000_0 0
+#define ROM_10000000_0 0
 #endif
 #if FLAG_0 & (1<<1)
-#defineine ROM_10000000_1 1
+#define ROM_10000000_1 1
 #else
-#defineine ROM_10000000_1 0
+#define ROM_10000000_1 0
 #endif
 ...
 ```
 
 Now we get to the hard part:
 ```c
-#defineine _LD(x, y) ROM_ ## x ## _ ## y
-#defineine LD(x, y) _LD(x, y)
-#defineine _MA(l0, l1, l2, l3, l4, l5, l6, l7) l7 ## l6 ## l5 ## l4 ## l3 ## l2 ## l1 ## l0
-#defineine MA(l0, l1, l2, l3, l4, l5, l6, l7) _MA(l0, l1, l2, l3, l4, l5, l6, l7)
-#defineine l MA(l0, l1, l2, l3, l4, l5, l6, l7)
+#define _LD(x, y) ROM_ ## x ## _ ## y
+#define LD(x, y) _LD(x, y)
+#define _MA(l0, l1, l2, l3, l4, l5, l6, l7) l7 ## l6 ## l5 ## l4 ## l3 ## l2 ## l1 ## l0
+#define MA(l0, l1, l2, l3, l4, l5, l6, l7) _MA(l0, l1, l2, l3, l4, l5, l6, l7)
+#define l MA(l0, l1, l2, l3, l4, l5, l6, l7)
 #endif
 #if __INCLUDE_LEVEL__ > 12
 #if S == 0
 #undef S
-#defineine S 1
+#define S 1
 #undef S
-#defineine S 24
+#define S 24
 #endif
 
 // ... (around 4000 lines)
@@ -124,14 +124,14 @@ Now we get to the hard part:
 #endif
 #if S == 57
 #undef S
-#defineine S 58
+#define S 58
 #error "INVALID_FLAG"
 #endif
 #if S == 58
 #undef S
-#defineine S 59
+#define S 59
 #undef S
-#defineine S -1
+#define S -1
 #endif
 #else
 #if S != -1
