@@ -24,7 +24,7 @@ The premise is pretty simple:
 
 - If we find all 3 passwords, then the server sends us the flag.
 
-- However, each decryption takes 10 seconds, and we are only allowed to use it so
+- However, each decryption takes 10 seconds, and we are only allowed to use it
   150 times.
 
 ## Solution
