@@ -1,4 +1,4 @@
-# pythia
+# Pythia
 
 **Category**: crypto \
 **Points**: 173 (65 solves)
