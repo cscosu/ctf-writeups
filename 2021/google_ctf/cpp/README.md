@@ -1,4 +1,4 @@
-# cpp
+# CPP
 
 **Category**: rev \
 **Points**: 75 (155 solves)
@@ -261,7 +261,7 @@ So case 0 just jumps to case 24.
 ```
 
 Case 1 just inverts `R0` through `R7`. If we consider `R0 - R7` as one byte,
-then it just does `R0 = R0 ^ 0b11111111`.
+then it just does `R = R ^ 0b11111111`.
 
 ```c
     #if S == 2
@@ -337,7 +337,17 @@ After manually reversing a few more cases, we get to case 34:
         // Same thing for A1 - A7
 ```
 
-This does `A = ROM[B]`.
+Looking at the macros defined earlier,
+
+```c
+#define _LD(x, y) ROM_ ## x ## _ ## y
+#define LD(x, y) _LD(x, y)
+#define _MA(l0, l1, l2, l3, l4, l5, l6, l7) l7 ## l6 ## l5 ## l4 ## l3 ## l2 ## l1 ## l0
+#define MA(l0, l1, l2, l3, l4, l5, l6, l7) _MA(l0, l1, l2, l3, l4, l5, l6, l7)
+#define l MA(l0, l1, l2, l3, l4, l5, l6, l7)
+```
+
+we can see that case 34 just does `A = ROM[B]`.
 
 After reversing the rest of the cases, we reach case 56, which checks if `Q ==
 0`. If so, then the flag is correct.
