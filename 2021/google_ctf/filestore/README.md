@@ -1,4 +1,4 @@
-# filestore
+# Filestore
 
 **Category**: misc \
 **Points**: 50 (321 solves)
@@ -26,11 +26,29 @@ Basically we send `CTF{a`, `CTF{b`, `CTF{c`, etc., and the one that uses the
 least space must be correct. I sped this up by using 32 simultaneous
 connections.
 
+> Another way I sped this up to was to first send single characters like `a`,
+> `b`, `c`, etc., and found that these characters had the lowest sizes:
+> `cdfinptuCFMRT0134_{}`. Those are the characters contained in the flag, so we
+> can limit ourselves to this character set.
+
 I was able to recover `CTF{CR1M3_0f_d3d`, but then ran into issues where many
 characters had the smallest size. This was because my string was 16 characters,
 and the block size was also 16 bytes, so the server would match the next
-character wherever it wanted. A simple workaround was to start from the end and
-send `a}`, `b}`, `c}`, etc.
+character wherever it wanted.
+
+```
+           0123456789012345
+           ----------------
+1st block: CTF{CR1M3_0f_d3d
+2nd block: X (where X denotes the unknown character)
+```
+
+For example if guess the character `1` for `X`, it could also match the `CR1ME`
+instead of `d3d1`. The problem with this is every character contained in the
+flag will now result in the same size.
+
+A simple workaround was to start from the end and
+send `a}`, `b}`, `c}`, etc., and work backwards.
 
 Solve script in `solve.py`:
 
@@ -54,3 +72,6 @@ f => 0.037R => 0.037
 [+] known = up1ic4ti0n}
 [*] Best guess: CTF{CR1M3_0f_d3dup1ic4ti0n}
 ```
+
+> Note: The flag references the [CRIME](https://en.wikipedia.org/wiki/CRIME)
+> attack, which was a compression oracle vunlerability in TLS
