@@ -1,4 +1,4 @@
-# hexagon
+# Hexagon
 
 **Category**: rev \
 **Points**: 166 (69 solves)
@@ -15,9 +15,9 @@ $ file challenge
 challenge: ELF 32-bit LSB executable, QUALCOMM DSP6, version 1 (SYSV), statically linked, for GNU/Linux 3.0.0, with debug_info, not stripped
 ```
 
-This is an executable for the Qualcomm Hexagon architecture.
-
-Opening it in Cutter, we see a very simple `main` function:
+This is an executable for the Qualcomm Hexagon architecture. Ghidra doesn't
+support it, but [Cutter](https://cutter.re/) does. After opening it, we see a
+very simple `main` function:
 
 ![main.png](main.png)
 
@@ -26,6 +26,10 @@ Opening it in Cutter, we see a very simple `main` function:
 `check_flag` checks the flag and calls six `hex` functions.
 
 ![check_flag.png](check_flag.png)
+
+> If you check the solve script in `solve.py`, you can see that some of the
+> constants spell out `* google binja-hexagon *`, which references
+> [Google's Hexagon plugin for Binja](https://github.com/google/binja-hexagon).
 
 Each `hex` function looks something like this:
 
@@ -85,9 +89,13 @@ Exec counters: pkt = 00000000, insn = 00000000
 I saved the output to a file so that I could refer to it while reversing the
 `check_flag` function.
 
-Luckily the logic was not too complicated and could be replicated in Python
-without too much hassle (script in `solve.py`). I used Z3 to solve the
-constraints and got this:
+Luckily the logic wasn't too complicated and could be replicated in Python
+without too much hassle. Remember how each `hex` function had two branches? It
+turns out each branch condition was determined by a constant, so no matter what
+we typed, the control flow stayed the same.
+
+This also made it easier to encode constraints with Z3, which was how I solved
+it:
 
 ```
 $ python3 solve.py
