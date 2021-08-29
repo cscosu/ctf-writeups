@@ -16,7 +16,7 @@ Attachments: `hwdbg.tar.gz`
 
 ## Overview
 
-> Writeup by Andrew Haberlandt (ath0), solved with @qxxxb
+> Writeup by Andrew Haberlandt (ath0, @_ndrewh) and @qxxxb
 
 We're given a QEMU boot script, `rootfs.cpio`, and `bzImage`. Booting into the machine, we indeed see that `/bin/hwdbg` has the setuid bit set.
 
