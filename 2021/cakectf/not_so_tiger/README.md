@@ -1,8 +1,128 @@
 # Not So Tiger
 
-This challenge is a C++ type confusion using `std::variant`.
+**Category**: pwn \
+**Points**: 239 points (14 solves) \
+**Author**: ptr-yudai
 
-There are three stack buffer overflows: One when giving a new cat a name, and another when changing a cat's name, and another in the strcpy in the `set` method for the two cats that have fixed-length char arrays for the name.
+Bengal, Ocicat, Ocelot, and Savannah Cat look similar.
+
+```
+nc pwn.cakectf.com 9004
+```
+
+Attachments: `not_so_tiger.tar.gz`
+
+Overview
+---
+
+This challenge is a C++ type confusion using `std::variant`. The source main.cpp file is provided. Notably, there are four very similar classes.
+
+```c
+class Bengal {
+public:
+  Bengal(long _age, const char *_name) { set(_age, _name); }
+  void set(long _age, const char *_name) {
+    age = _age;
+    name = strdup(_name);
+  }
+  char *name;
+  long age;
+};
+
+class Ocicat {
+public:
+  Ocicat(long _age, const char *_name) { set(_age, _name); }
+  void set(long _age, const char *_name) {
+    age = _age;
+    strcpy(name, _name);
+  }
+  char name[0x20];
+  long age;
+};
+
+class Ocelot {
+public:
+  Ocelot(long _age, const char *_name) { set(_age, _name); }
+  void set(long _age, const char *_name) {
+    age = _age;
+    strcpy(name, _name);
+  }
+  long age;
+  char name[0x20];
+};
+
+class Savannah {
+public:
+  Savannah(long _age, const char *_name) { set(_age, _name); }
+  void set(long _age, const char *_name) {
+    age = _age;
+    name = strdup(_name);
+  }
+  long age;
+  char *name;
+};
+```
+
+The main function declares a std::variant:
+
+```
+variant<Bengal, Ocicat, Ocelot, Savannah> cat = Bengal(97, "Nyanchu");
+```
+
+`cat` is `=` -assignable to a Bengal, Ocicat, Ocelot, or Savannah, and since each class has a `set` method with an identical signature, it can call `set` regardless of the type like this:
+
+```cpp
+visit([&](auto& x) {
+  x.set(age, name);
+}, cat);
+```
+
+See the [std::visit docs](https://en.cppreference.com/w/cpp/utility/variant/visit) for more information.
+
+The challenge gives 3 options.
+
+```
+1. New cat
+2. Get cat
+3. Set cat
+>> 
+```
+
+1. New cat just assigns `cat` to a newly constructed cat of one of the four types
+2. Get cat just prints the name and age of the current cat (the std::visit takes care of the polymrophism here... as we'll see later)
+3. Set cat calls `set` on the current cat, so you can change the name or age.
+
+Solution
+====
+
+There are three stack buffer overflows: 
+
+1. When giving a new cat a name (line 77)
+```cpp
+char name[0x20]
+...
+cin >> name;
+```
+
+2. When changing a cat's name, and another in the strcpy in the `set` method for the two cats that have fixed-length char arrays for the name (line 105)
+
+```cpp
+char name[0x20]
+...
+cin >> name;
+```
+
+3. strcpy in Ocicat and Ocelot
+
+```cpp
+  void set(long _age, const char *_name) {
+    age = _age;
+    strcpy(name, _name);
+  }
+  char name[0x20];
+  long age;
+```
+
 
 The problem is there are stack canaries, so we need to leak the canary in order to be able to smash the stack and do ROP.
 
@@ -20,14 +140,24 @@ Bengal looks like this:
   long age;
 ```
 
-From reversing the binary, we see that the std::variant leaves 0x28 bytes for the (largest possible) type itself, and then at offset 0x28 is the index of the class (0 = Bengal, 1 = Ocicat, 2 = Ocelot, 3 = Savannah -- this is just from the order of the types in the std::variant<...> declaration). 
+But how does std::visit know whether to treat the `cat` as a Bengal or Ocelot? Looking at the decompiled code in Ghidra (at 0x00401ed3):
 
+![](screenshot1.png)
+
+It calls `::index` on the `std::variant` and then uses that to index into a vtable. 
+
+`::index` does the following:
+
+![](screenshot2.png)
+
+
+We see that the std::variant leaves 0x28 bytes for whichever one of the Cat classes it is currently, and then at offset 0x28 is the index of the class (0 = Bengal, 1 = Ocicat, 2 = Ocelot, 3 = Savannah -- this is just from the order of the types in the std::variant<...> declaration). 
 
 We come up with the following scenario for a leak:
 
 1. Create an Ocelot with 'age' being a pointer to somewhere we want to leak
-2. Use the overflow caused by the strcpy of the name in Ocelot's `set` method to overwrite the type index on the std::varaint to be '0' (a Bengal)
-3. Read from the Cat...  `char *name` will have the same value as the `age` we controlled... This gives us an leak.
+2. Use the overflow caused by the `strcpy` of the name in Ocelot's `set` method to overwrite the type index on the std::varaint to be '0' (a Bengal)
+3. Read from the Cat...  `char *name` will have the same value as the `age` we controlled... This lets us read from an arbitrary address.
 
 
 What do we want to leak? In GEF I literally just did the following to see where the canary is in memory:
@@ -95,9 +225,25 @@ gef➤
 
 But we assume ASLR is on so we need to leak some library address and then add the right offset to compute the address of the canary. (*Then* we can actually leak the canary itself).
 
-I found some random stdlibc++ address at 0x407cf0, and address offsets were determined experimentally by attaching GDB and printing out the address of the canary and the address I was able to leak. 
+I found some random stdlibc++ address at 0x407cf0, and address offsets were determined experimentally by attaching GDB and printing out the address of the canary and the address I was able to leak. I could have used something in the GOT as my base instead.
 
 After I leaked the canary (byte by byte, in case there were any newlines or nulls), it was time to ROP.
+
+I think any of the buffer overflows will work to smash the stack, but I chose to use the first overflow (when giving a new Cat a name).
+
+```
+    std::operator<<((basic_ostream *)std::cout,"Name: ");
+    std::operator>>((basic_istream *)std::cin,local_a8);
+```
+
+Since the canary is at local_20 per the decompiled code...
+
+```
+      if (local_20 == *(long *)(in_FS_OFFSET + 0x28)) {
+        return uVar4;
+      }
+```
+... we want to write (0xa8 - 0x20 = 0x88 bytes) of garbage, and then the stack canary. Then we can write our ROP payload.
 
 We already have a libc-leak so just compute some more offsets to get a `system` address and a "/bin/sh" address. The ROP itself is simple:
 
