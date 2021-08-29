@@ -165,7 +165,7 @@ Welcome to CakeCTF 2021
 
 In another terminal, we can debug the kernel like so:
 ```
-# gdb vmlinux  # Run as root
+sudo gdb vmlinux  # Run as root
 gef>  target remote :1234
 ```
 
@@ -176,12 +176,14 @@ I don't know much about linux kernel pwn. But I'm familiar with userspace.
 give us direct access to physical memory, so this should be easy. There should
 be some (writable) pages in physical memory somewhere for the hwdbg program. My
 initial thought is that we ought to be able to find something to overwrite
-(malloc_hook, or something you otherwise might use for exploitation in
+(`malloc_hook`, or something you otherwise might use for exploitation in
 userspace). But how do we know what physical page our program is in?
 
-qxxxb had heard of a cool tool to show page tables in GDB when attached to QEMU: https://github.com/martinradev/gdb-pt-dump/
+qxxxb had heard of a cool tool to show page tables in GDB when attached to
+QEMU: https://github.com/martinradev/gdb-pt-dump/
 
-I modified this tool slightly to output the physical addresses when using the `pt -sb` command to search. (see gdb-pt-dump.patch)
+I modified this tool slightly to output the physical addresses when using the
+`pt -sb` command to search. (see `gdb-pt-dump.patch`)
 
 Searching for some unique sequence of instructions in `hwdbg`, we get an interesting result:
 
@@ -200,7 +202,8 @@ Found phys map base:
 This is before even running `hwdbg` even once. There is a *writable* page in
 physical memory containing the executable. We didn't bother to check, but the
 entire filesystem is probably be sitting in physical memory. And better yet,
-it's at a constant address: `0xffff95fa038b8316 - 0xffff95fa00000000 = 0x38b8316`.
+it's at a constant physical address:
+`0xffff95fa038b8316 - 0xffff95fa00000000 = 0x38b8316`.
 
 If you run `hwdbg` once (and let it hang running) we get a better picture of what is going on:
 
@@ -211,8 +214,8 @@ Found at 0xffff95fa038b8316 in   0xffff95fa035e0000 : 0xa00000 | W:1 X:0 S:1 UC:
 Found at 0xffffffffb70b8316 in   0xffffffffb6de0000 : 0x420000 | W:1 X:0 S:1 UC:0 WB:1
 ```
 
-Our executable page is mapped at 0x401000 in `hwdbg`'s virtual address space,
-and that maps to physical address 0x38e5000. The other match
+Our executable page is mapped at `0x401000` in `hwdbg`'s virtual address space,
+and that maps to physical address `0x38e5000`. The other match
 `0xffff9e4a038e5316` is just the mapping of this page in the kernel's virtual
 address space.
 

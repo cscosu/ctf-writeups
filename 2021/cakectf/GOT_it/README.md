@@ -94,7 +94,7 @@ constraints:
 ```
 
 The first one almost worked, but it segfaulted since `R12` wasn't
-null. I fixed by sending a null byte to `scanf("%9s", (char*)&arg)`
+null. I fixed it by sending a null byte to `scanf("%9s", (char*)&arg)`
 
 Solve script:
 
