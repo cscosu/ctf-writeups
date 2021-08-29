@@ -163,7 +163,7 @@ Welcome to CakeCTF 2021
 / $
 ```
 
-In other terminal, we can debug the kernel like so:
+In another terminal, we can debug the kernel like so:
 ```
 # gdb vmlinux  # Run as root
 gef>  target remote :1234
