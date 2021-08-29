@@ -1,5 +1,7 @@
 # Mongoose Mayhem
 
+Writeup by: Andrew Haberlandt (ath0)
+
 Files:
 
 - README.txt
