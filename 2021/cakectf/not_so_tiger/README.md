@@ -104,7 +104,7 @@ char name[0x20]
 cin >> name;
 ```
 
-2. When changing a cat's name, and another in the strcpy in the `set` method for the two cats that have fixed-length char arrays for the name (line 105)
+2. When changing a cat's name (line 105)
 
 ```cpp
 char name[0x20]
