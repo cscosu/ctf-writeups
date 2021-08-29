@@ -1,0 +1,26 @@
+diff --git a/pt.py b/pt.py
+index 8f21905..7838f8f 100644
+--- a/pt.py
++++ b/pt.py
+@@ -216,7 +216,7 @@ class PageTableDump(gdb.Command):
+                 aligned_offset = args.align[1] if args.align and len(args.align) == 2 else 0
+                 search_results = search_memory(self.phys_mem, page_ranges, to_search, to_search_num, aligned_to, aligned_offset)
+                 for entry in search_results:
+-                    print("Found at " + hex(entry[0]) + " in " + str(entry[1]))
++                    print("Found at " + hex(entry[0]) + " in " + str(entry[1]) + " (phys " + hex(entry[2]) +")")
+             else:
+                 print("Not found")
+         elif args.kaslr:
+diff --git a/pt_common.py b/pt_common.py
+index e638af0..4a8a429 100644
+--- a/pt_common.py
++++ b/pt_common.py
+@@ -159,7 +159,7 @@ def search_memory(phys_mem, page_ranges, to_search, to_search_num, aligned_to, a
+                 idx = data.find(to_search, idx)
+                 if idx != -1:
+                     if (idx - aligned_offset) % aligned_to == 0:
+-                        yield (range.va + idx, range)
++                        yield (range.va + idx, range, range.phys[0] if len(range.phys) > 0 else None)
+                         to_search_num = to_search_num - 1
+                         if to_search_num == 0:
+                             done_searching = True
