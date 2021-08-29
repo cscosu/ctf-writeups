@@ -6,6 +6,8 @@
 
 **Author**: ?
 
+**Writeup By:** Andrew Haberlandt (ath0)
+
 ## Challenge
 
 **Description**: check my new baby toy! (Ubuntu 21.04: apt install musl)
