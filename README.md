@@ -15,6 +15,7 @@ Write-ups for the [Buckeye Bureau of BOF](https://ctftime.org/team/144581)
 | 07/09/21 - 07/12/21 | [redpwnCTF 2021]     |  3 / 1418 | Super team: OpeOnlyOverflows               |
 | 07/16/21 - 07/18/21 | [Google CTF 2021]    |  49 / 379 | Super team: CornfieldComputerCrew          |
 | 08/27/21 - 08/29/21 | [CakeCTF 2021]    |  15 / 157 |         |
+| 09/10/21 - 09/12/21 | [CSAW CTF 2021 Qualifiers] | 32 / 1216 | 11th in US/Canada Region. Qualified for CSAW CTF 2021 Finals   |
 
 
 [DiceCTF 2021]: https://github.com/qxxxb/ctf/tree/master/2021/dice_ctf
@@ -28,4 +29,5 @@ Write-ups for the [Buckeye Bureau of BOF](https://ctftime.org/team/144581)
 [Cornfield Computer Crew]: https://ctftime.org/team/11464
 [Midwest Ministry of Machines]: https://ctftime.org/team/27763
 [CakeCTF 2021]: 2021/cakectf/
+[CSAW CTF 2021 Qualifiers]: https://ctftime.org/event/1315
 
