@@ -1,7 +1,7 @@
 # word_games
 
 **Category**: pwn \
-**Points**: 499 points (14 solves) \
+**Points**: 499 points (14 solves)
 
 **Writeup By**: Andrew Haberlandt (ath0)
 
@@ -57,7 +57,7 @@ Every time you submit a suggestion, it will be inserted into the user list. This
 
 If you submit a suggestion containing 'fun' then it will do some additonal stuff:
 
-```python
+```
 Do you have any more words for me?
    1. Suggest word
    2. Scrap your list
