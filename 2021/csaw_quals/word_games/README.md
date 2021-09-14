@@ -237,4 +237,4 @@ r.sendline("2") # scrap list, /bin/bash gets free'd
 r.interactive()
 ```
 
-See [solve.py](solve.py)
+See [word_games.py](https://github.com/cscosu/ctf-writeups/blob/master/2021/csaw_quals/word_games/word_games.py)
