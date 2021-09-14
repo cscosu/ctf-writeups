@@ -29,5 +29,5 @@ Write-ups for the [Buckeye Bureau of BOF](https://ctftime.org/team/144581)
 [Cornfield Computer Crew]: https://ctftime.org/team/11464
 [Midwest Ministry of Machines]: https://ctftime.org/team/27763
 [CakeCTF 2021]: 2021/cakectf/
-[CSAW CTF 2021 Qualifiers]: https://ctftime.org/event/1315
+[CSAW CTF 2021 Qualifiers]: 2021/csaw_quals/
 
