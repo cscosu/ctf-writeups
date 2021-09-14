@@ -29,7 +29,7 @@ I have included this `ld-2.33.so` here. After this I just used pwninit (or you c
 
 Now that we have it running...
 
-```python
+```
 Hi! I need your help. I'm writing a paper and I need some fun words to add to it.
 Can you give me some words??
    1. Suggest word
