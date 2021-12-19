@@ -162,3 +162,13 @@ $ python3 solve.py
   adding: leak.lnk (stored 0%)
 hxp{at_least_we_have_all_the_performance_in_the_world..._lolphp_:/}
 ```
+
+## Note
+
+The challenge set `php_admin_value[allow_url_fopen] = 0`. However, this still
+lets use use PHP's various [stream
+wrappers](https://www.php.net/manual/en/wrappers.php). Notice `file://` is not
+restricted by `allow_url_fopen`, as indicated here:
+https://www.php.net/manual/en/wrappers.file.php
+
+You can also see this in the [source code](https://github.com/php/php-src/blob/PHP-7.4.25/main/streams/streams.c#L1865), where `plain_files_wrapper->is_url == 0`.
