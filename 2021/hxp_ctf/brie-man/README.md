@@ -41,6 +41,8 @@ The problem is referencing the
 
 ## Solution
 
+> Solved with @ndrewh
+
 Satisfying the `assert` statements doesn't seem to be possible, but after
 playing around with it for a while, I noticed some weird behavior:
 
