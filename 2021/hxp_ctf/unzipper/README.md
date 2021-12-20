@@ -95,7 +95,7 @@ file:
       └── html
          └── data
             └── ccf86389404367cb06bab3ba41c71c27
-               └── leak.lnk (symlink to /flag.txt)
+               └── leak.lnk
 leak.lnk -> /flag.txt
 ```
 

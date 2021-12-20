@@ -48,7 +48,6 @@ playing around with it for a while, I noticed some weird behavior:
 
 ```python
 sage: CC.to_prec(160)('2i')
-source = 2i
 Traceback (most recent call last):
 
   File "/home/plushie/.local/lib/python3.8/site-packages/IPython/core/interactiveshell.py", line 3437, in run_code
