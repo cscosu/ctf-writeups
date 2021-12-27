@@ -1,6 +1,9 @@
 sandboxgrind
+=====
 
 Writeup Author: ath0
+
+Files provided: `sandboxgrind-542f0d05188b7fa5.tar.xz `
 
 Overview
 =====
@@ -16,7 +19,7 @@ So the program is translated into an IR, then in-essence recompiled back to mach
 
 So what are the limitations of this sandbox?
 
-```
+```c
 static void SB_(pre_clo_init)(void)
 {
     VG_(details_name)("sandboxgrind");
@@ -30,7 +33,7 @@ static void SB_(pre_clo_init)(void)
 
 I don't know much about valgrind, but it seems that `SB_(instrument)` should be the main instrumentation function.
 
-```
+```c
 static IRSB* SB_(instrument)(VgCallbackClosure *closure,
                              IRSB *bb,
                              const VexGuestLayout *layout,
@@ -64,7 +67,7 @@ static IRSB* SB_(instrument)(VgCallbackClosure *closure,
 
 This doesn't do a whole lot, besides call SB_(instrument_jump) for every jump. And what does that do?
 
-```
+```c
 static void SB_(instrument_jump)(IRSB *sbOut, IRJumpKind jk, IRExpr *dst, IRExpr *guard)
 {
     switch (jk) {
@@ -92,7 +95,7 @@ There were about 3 different things I tried:
 Idea 1: Compile with `-x execstack`... stack is now RWX... lets write code and jump there!
 ----
 
-```
+```assembly
 mov eax, 1
 mov rdi, 1
 lea rsi, [rip+str]
@@ -120,7 +123,7 @@ Maybe if we modify our code as its running, we can write a syscall after the too
 
 I'm not 100% sure why this doesn't work if you do it in a RWX region, but it doesn't.
 
-```
+```assembly
 # setup regs for write(1, "Hello world", 0x20)
 mov eax, 1
 mov rdi, 1
