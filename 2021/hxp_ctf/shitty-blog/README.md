@@ -1,6 +1,8 @@
 shitty blog 🤎
 =====
 
+Points: 250 (31 solves)
+
 Writeup by: ath0 and qxxxb
 
 

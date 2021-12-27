@@ -1,6 +1,8 @@
 sandboxgrind
 =====
 
+Points: 244 (32 solves)
+
 Writeup Author: ath0
 
 Files provided: `sandboxgrind-542f0d05188b7fa5.tar.xz `
