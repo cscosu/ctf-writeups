@@ -1,0 +1,25 @@
+From f5555da2a462730e0a29e2287e9451a5b011f364 Mon Sep 17 00:00:00 2001
+From: ndrewh <ndrewh@users.noreply.github.com>
+Date: Sun, 22 May 2022 16:37:22 -0400
+Subject: [PATCH] SRL is 'shift right logical'
+
+Ref: https://docs.xilinx.com/v/u/2015.3-English/ug984-vivado-microblaze-ref (pg. 262)
+
+I used this plugin to help solve the Hack-a-Sat microblaze challenges ("Blazin' Etudes" and "Ominous Etude")
+---
+ microblaze.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/microblaze.py b/microblaze.py
+index e2b45e3..1873b4b 100644
+--- a/microblaze.py
++++ b/microblaze.py
+@@ -486,7 +486,7 @@ def lift(self, il):
+         else:
+             one = il.const(1, 1)
+             if self.op == 'SRL':
+-                val = il.shift_left(4, a, one, flags='carry')
++                val = il.logical_shift_right(4, a, one, flags='carry')
+             elif self.op == 'SRA':
+                 val = il.arith_shift_right(4, a, one, flags='carry')
+             elif self.op == 'SRC':
