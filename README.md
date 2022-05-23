@@ -18,6 +18,7 @@ Write-ups for the [Buckeye Bureau of BOF](https://ctftime.org/team/144581)
 | 09/10/21 - 09/12/21 | [CSAW CTF 2021 Qualifiers] | 32 / 1216 | 11th in US/Canada Region. Qualified for CSAW CTF 2021 Finals |
 | 11/05/21 - 11/07/21 | [DamCTF 2021]              |   6 / 827 | Hosted by Oregon State University                            |
 | 12/17/21 - 12/19/21 | [hxp CTF 2021]             |  31 / 150 | Super team: not SIGPwny                                      |
+| 05/20/22 - 05/22/22 | [Hack-A-Sat 3 Quals]       |  17 / 472 |                                                              |
 
 
 [DiceCTF 2021]: https://github.com/qxxxb/ctf/tree/master/2021/dice_ctf
@@ -34,3 +35,4 @@ Write-ups for the [Buckeye Bureau of BOF](https://ctftime.org/team/144581)
 [CSAW CTF 2021 Qualifiers]: 2021/csaw_quals/
 [DamCTF 2021]: 2021/dam_ctf/
 [hxp CTF 2021]: 2021/hxp_ctf/
+[Hack-A-Sat 3 Quals]: 2022/hack_a_sat/
